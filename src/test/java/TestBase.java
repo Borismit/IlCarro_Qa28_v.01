@@ -1,50 +1,22 @@
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
+import application.ApplicationManager;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
-import java.util.concurrent.TimeUnit;
-
 public class TestBase {
+protected static ApplicationManager app = new ApplicationManager();//ссылка на класс ApplicationManager, protected - чтобы ApplicationManager был доступен только здесь
+                                                                   //static - чтобы ApplicationManager одир раз создался (прогнался). Все методы в классе ApplicationManager теперь доступны
 
-    WebDriver wd;
 
     @BeforeClass
-    public void init(){
-        wd=new ChromeDriver();
-        wd.manage().window().maximize();
-        wd.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS);
-        wd.navigate().to("https://ilcarro.xyz/search");
+    public void start(){
+     app.init(); //обращаемся к методу init() в классе ApplicationManager
+
     }
 
     @AfterClass
     public void tearDown(){
-        wd.quit();
+      app.stop();//обращаемся к методу stop() в классе ApplicationManager
     }
 
-    public void click(By locator){
-        wd.findElement(locator).click();
-    }
-    public  void type(By locator, String text){
-        if (text!=null) {
-            WebElement element = wd.findElement(locator);
-            element.click();
-            element.clear();
-            element.sendKeys(text);
-        }
-    }
-//метод, который будет вычитывать текст из элемента и возвращать
-    public String getText(By locator){
-        return wd.findElement(locator).getText();
-    }
-    //пишем метод pause(), чтобы хватило времени отрисовать картинку
-     public void pause(int millisec){
-        try {
-            Thread.sleep(millisec);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
+
 }

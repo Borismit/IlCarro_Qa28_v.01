@@ -1,25 +1,44 @@
+import models.User;
 import org.openqa.selenium.By;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class LoginTest extends TestBase {
 
-
+    @BeforeMethod
+    public void precondition(){
+        //если залогинен, то разлогинься
+        if (!app.userHelper().isLoggeed())//если нет кнопки Login, значит мы залогинены, тогда заходим внутрь и разлогиниваемся
+        {
+            app.userHelper().logout();
+        }
+    }
     @Test
     public void loginTestPositive(){
-
-      click(By.xpath("//a[.=' Log in ']"));
-
-      type(By.id("email"), "noa@gmail.com");
-      type(By.id("password"), "Nnoa12345$");
-      //click(By.xpath("//*[text()='Y’alla!']"));
-       pause(3000); //вызываем метод pause(), чтобы хватило времени отрисовать картинку
-        click(By.xpath("//*[@type='submit']"));//кликаем на кнопку Y’alla! (это вместо верхней строчки)
-       // String loginS=wd.findElement(By.xpath("//div[@class='dialog-container']//h2")).getText();
-        String loginS=getText(By.xpath("//div[@class='dialog-container']//h2"));//вызываем метод getText(), в этот метод отдам тот локатор,
-                                                                              // по которому находим элемент, где вычитывается стринг (текст)
-        click(By.xpath("//button[.='Ok']"));
+        //будем вызывать методы реализованные (созданные) в классе UserHalper
+        //ApplicationManager хранит ссылку на userHalper, внутри userHalper доступны его методы и его родителей
+        //наведя на метод (он красный, т. к. его ещё нет) openLoginForm(), создадим его (alt+enter) в классе UserHalper
+        app.userHelper().openLoginForm();
+        app.userHelper().fillLoginForm("noa@gmail.com","Nnoa12345$");//вызывая метод fillLoginForm() из класса UserHalper, заполняем email и password
+        app.userHelper().submitLogin();
+        app.userHelper().pause(3000); //вызываем метод pause(), чтобы хватило времени отрисовать картинку. Вызываем из класс UserHalper, а у него есть доступ к родителю class HelperBase, где сидит этот метод
+        String loginS=app.userHelper().getText(By.xpath("//div[@class='dialog-container']//h2"));//вызываем метод getText() через класс UserHalper из его родителя class HelperBase. В этот метод отдам тот локатор,
+        app.userHelper().clickOkButton();                                                                                        // по которому находим элемент, где вычитывается стринг (текст)
        Assert.assertEquals(loginS, "Logged in success");//убеждаемся, что  в //h2 лежит сообщение, что я залогинился
 
+    }
+    @Test
+    //метод, который принимает объект User, которому надо залогиниться
+    public void loginTestPositiveDto(){
+        User user= new User().withEmail("noa@gmail.com").withPassword("Nnoa12345$");//через "." выбираем только те поля, которые нам надо заполнить
+
+        app.userHelper().openLoginForm();
+        app.userHelper().fillLoginForm(user);
+        app.userHelper().submitLogin();
+        app.userHelper().pause(3000); //вызываем метод pause(), чтобы хватило времени отрисовать картинку. Вызываем из класс UserHalper, а у него есть доступ к родителю class HelperBase, где сидит этот метод
+        String loginS=app.userHelper().getText(By.xpath("//div[@class='dialog-container']//h2"));//вызываем метод getText() через класс UserHalper из его родителя class HelperBase. В этот метод отдам тот локатор,
+        app.userHelper().clickOkButton();                                                                                        // по которому находим элемент, где вычитывается стринг (текст)
+        Assert.assertEquals(loginS, "Logged in success");//убеждаемся, что  в //h2 лежит сообщение, что я залогинился
     }
 }
