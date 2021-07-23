@@ -21,7 +21,7 @@ public class UserHelper extends HelperBase {
         type(By.id("email"),user.getEmail());
         type(By.id("password"),user.getPassword());
     }
-    public void submitLogin(){
+    public void clickYallaButton(){
         click(By.xpath("//*[@type='submit']"));//кликаем на кнопку Y’alla! (кнопка login)
     }
 
@@ -38,4 +38,27 @@ public class UserHelper extends HelperBase {
         click(By.xpath("//a[.=' Logout ']"));
 
     }
+
+    public void openRegistrationForm() {
+        click(By.xpath("//a[.=' Sign up ']"));
+    }
+
+    public void fillRegistrationForm(User user) {
+        type(By.id("name"), user.getName());
+        type(By.id("lastName"), user.getLastName());
+        type(By.id("email"), user.getEmail());
+        type(By.id("password"), user.getPassword());
+    }
+
+    public void clickCheckBox() {
+        click(By.xpath("//label[@class='checkbox-label terms-label']"));
+    }
+
+    public void clickregistrationButton() {
+        click(By.xpath("//*[@type='submit']"));
+    }
+
+//    public void clickYallaButton() {
+//        click(By.xpath("//button[.='Ok']"));
+//    }
 }
