@@ -3,6 +3,7 @@ package application;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 
 public class HelperBase {
     WebDriver wd;
@@ -24,6 +25,12 @@ public class HelperBase {
             element.sendKeys(text);
         }
     }
+    public void select(By locator, String option){
+        //new Select(wd.findElement(By.id("fuel"))).selectByIndex(1);//выбираем или по порядковому номеру
+        new Select(wd.findElement(locator)).selectByValue(option);//или по значению Value
+        //new Select(wd.findElement(By.id("fuel"))).selectByVisibleText("");//или по видимому тексту между тегами
+    }
+
     //метод, который будет вычитывать текст из элемента и возвращать
     public String getText(By locator){
         return wd.findElement(locator).getText();
