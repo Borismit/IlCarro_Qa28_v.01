@@ -29,7 +29,7 @@ public class UserHelper extends HelperBase {
         click(By.xpath("//button[.='Ok']"));
     }
 
-    public boolean isLoggeed() {
+    public boolean isLogged() {
         return wd.findElements(By.xpath("//a[.=' Log in ']")).size()>0;//если размер списка findElements >0, то элемент (кнопка) Log in есть,
                                                                        //если <0, то её нет и вернётся не ошибка а falls
     }
@@ -56,6 +56,15 @@ public class UserHelper extends HelperBase {
 
     public void clickregistrationButton() {
         click(By.xpath("//*[@type='submit']"));
+    }
+
+    public void login(User user) {
+        click(By.xpath("//a[.=' Log in ']"));
+        type(By.id("email"),user.getEmail());
+        type(By.id("password"),user.getPassword());
+        click(By.xpath("//*[@type='submit']"));
+        click(By.xpath("//button[.='Ok']"));
+        pause(2000);
     }
 
 //    public void clickYallaButton() {

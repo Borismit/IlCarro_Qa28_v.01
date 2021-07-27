@@ -4,6 +4,8 @@ import models.Car;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class CarHelper extends HelperBase{
     //создадим конструктор от суперкласса HelperBase, чтобы HelperBase стал его наследником: ставим курсор на строчку HelperBase->alt+enter-> Grate constractor ...
@@ -56,6 +58,24 @@ public class CarHelper extends HelperBase{
     }
 
     private boolean isCarFormPresent() {
-        return  wd.findElements(By.xpath("//h1[contains(.,'Let the car work')]")).size()>0;
+        return  wd.findElements(By.xpath("//h1[contains(.,'Let the car work')]")).size()>0;//если найден элемент (надпись) Let the car work, возвращается true, т. е. форма открылась
+    }
+
+    public void attachPhoto() {
+//находим по id("photos") кнопку Add photos of your car, т. к. этот элемент относится к типу input, то можно использовать, как и для ввода текста, метод sendKeys(), в нём указываем путь к картинке
+        wd.findElement(By.id("photos")).sendKeys("C:\\Users\\97254\\Desktop\\Programming courses\\LESSONS\\Lessons Qa\\Lesson_32/bmw.jpeg");
+
+    }
+
+    public boolean isCarAdded() {
+        String text
+                = wd.findElement(By.xpath("//div[@class='dialog-container']//h1")).getText();
+        return text.contains("Car added");
+    }
+
+    public void clickButtonSubmit() {
+        new WebDriverWait(wd, 10)
+                .until(ExpectedConditions.elementToBeClickable(wd.findElement(By.xpath("//button[text()='Submit']"))));
+        click(By.xpath("//button[.='Submit']"));
     }
 }
