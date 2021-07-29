@@ -1,9 +1,12 @@
 package application;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import com.google.common.io.Files;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.Select;
+
+import java.io.File;
+import java.io.IOException;
+
 
 public class HelperBase {
     WebDriver wd;
@@ -43,6 +46,21 @@ public class HelperBase {
             e.printStackTrace();
         }
     }
+
+    public boolean isElementPresent(By locator){
+        return wd.findElements(locator).size()>0;//по локатору (locator) ищем элемент и если size()>0, то этот элемент есть
+    }
+
+    public void takeScreenshot(String pathToFile){
+        File tmp = ((TakesScreenshot) wd).getScreenshotAs(OutputType.FILE);
+        File screenshot = new File((pathToFile));//виерхний фаил переписываем в этот фаил
+        try {
+            Files.copy(tmp,screenshot);//из файла tmp скопируй в этот фаил screenshot для сохранения
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
 
 
