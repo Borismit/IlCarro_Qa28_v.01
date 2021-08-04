@@ -17,7 +17,7 @@ public class RegistrationTest extends TestBase {
 
     @Test
     public void registrationTest(){
-        User user = new User().withName("Boris").withLastName("Mitelman").withEmail("noa@gmail.com-7").withPassword("Nnoa12345$");
+        User user = new User().withName("Boris").withLastName("Mitelman").withEmail("noa098121531@gmail.com-7").withPassword("Nnoa12345$");
 
         app.userHelper().openRegistrationForm();
         app.userHelper().fillRegistrationForm(user);
@@ -26,6 +26,7 @@ public class RegistrationTest extends TestBase {
         app.userHelper().clickregistrationButton();
         app.userHelper().pause(3000);
         String SignupS = app.userHelper().getText(By.xpath("//h2[@class='message']"));
+        app.userHelper().pause(3000);
         app.userHelper().clickYallaButton();
         Assert.assertEquals(SignupS,"You are logged in success");
 

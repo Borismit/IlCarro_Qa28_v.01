@@ -14,7 +14,7 @@ public class SearchTest extends TestBase{
 
     @Test
     public void negativeTestSendKey(){
-        //witch concantinate string - передадим в этот метод два стринга: дата от и дата до
+        //witch concantinate string - передадим в этот метод два стринга: дата от и дата до (уже прошедшие даты, т. к. тест негативный)
         app.search().typeSearchCurrentMonth("Hifa","06/29/2021","06/31/2021");//выберем текущий месяц и натайпим туда
 
         app.carHelper().pause(2000);
@@ -24,7 +24,7 @@ public class SearchTest extends TestBase{
 
     @Test
     public void selectPeriolCurrentMonth(){
-       app.search().fillSearchFormCurrentMonth("Hifa","07/29/2021","07/31/2021");
+       app.search().fillSearchFormCurrentMonth("Hifa","09/29/2021","10/31/2021");
         app.userHelper().clickYallaButton();
         app.carHelper().pause(2000);
         Assert.assertTrue(app.search().isListOfCarAppeared());//если вернёт True, значит список машин с их фото отобразился - тест пройден
